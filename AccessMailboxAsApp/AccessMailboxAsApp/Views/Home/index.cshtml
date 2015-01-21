@@ -1,0 +1,146 @@
+﻿<!--
+   Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
+-->
+@model AccessMailboxAsApp.Models.AppState 
+@{
+    ViewBag.Title = "Access Mailbox As Daemon App (app-only)";
+}
+
+<script type="text/javascript">
+    function MailboxSelectionChanged(smtp)
+    {
+        var e = document.getElementById('MailboxSmtpAddress');
+        e.value = smtp;
+    }
+</script>
+
+<h2>Access Mailbox As App - Demo</h2>
+
+@if(Model.AppIsAuthorized == false)
+{ // App is not yet authorized !
+    if (!String.IsNullOrEmpty(Model.ErrorMessage))
+    {
+    <p>
+        <b>Error: Authorization failed with: [<i>@Model.ErrorMessage</i>]</b><br/>
+    </p>
+    }
+    using (Html.BeginForm("", "Home", FormMethod.Post))
+    {
+        <p>
+            <b>You need to sign-up your organization to use this app.</b><br/>
+            The sign-up requires an administrator of your organization.
+        </p>
+        <table>
+            <tr>
+                <td>Authorize this Application to read Mail, Calendar and Contacts in your Organization: <input width="300" type="submit" name="action:Authorize" value="Sign-Up !"/>  </td>
+            </tr>
+        </table>
+    }
+}
+
+@if (Model.AppIsAuthorized == true)
+{ // We are authorized and hopefully get tokens ...
+<p>
+    <b>Organization: [@Model.TenantDomain]</b><br/>
+    Current logged on admin user: [@Model.LoggedOnUser]<br/><br/> 
+</p>
+using (Html.BeginForm("", "Home", FormMethod.Post))
+{
+    if (Model.AccessTokenAquiredWithoutError)
+    {// we can do work
+        <p>
+            <table>
+                <tr>
+                    <th>Get data for mailbox [select smtp address]:</th>
+                    <th colspan="3">@Html.DropDownList("Mailbox", Model.MailboxList, new { @onchange = "MailboxSelectionChanged(this.value)" })
+                    </th>
+                </tr>
+            </table>
+        </p>
+        <p>
+            <table>
+                <tr>
+                    <td><input type="submit" name="action:Messages" value="Get Messages" /></td>
+                    <td><input type="submit" name="action:Calendar" value="Get Calendar" /></td>
+                    <td><input type="submit" name="action:Contacts" value="Get Contacts" /></td>
+                    <td><input type="submit" name="action:StartOver" value="Use a different organization" /></td>
+                </tr>
+           </table>
+        </p>
+    }
+    else // Token aquesition had an error display error message
+    {
+        <p>
+            <b>Error Aquiring Access Token: [@Model.ErrorMessage]</b><br/>
+        </p>
+        <p>
+            <table>
+                <tr>
+                    <td><input type="submit" name="action:StartOver" value="Restart App !" /></td>
+                </tr>
+            </table>
+        </p>
+    }
+    <table>
+        <tr hidden>
+            <td colspan="4">@Html.TextBoxFor(model => model.TenantId)</td>
+        </tr>
+        <tr hidden>
+            <td colspan="4">@Html.TextBoxFor(model => model.TenantDomain)</td>
+        </tr>
+        <tr hidden>
+            <td colspan="4">@Html.TextBoxFor(model => model.LoggedOnUser)</td>
+        </tr>
+        <tr hidden>
+            <td colspan="4">@Html.TextBoxFor(model => model.AppIsAuthorized)</td>
+        </tr>
+        <tr hidden>
+            <td colspan="4">@Html.TextBoxFor(model => model.AccessTokenAquiredWithoutError)</td>
+        </tr>
+        <tr hidden>
+            <td colspan="4">@Html.TextBoxFor(model => model.AccessToken)</td>
+        </tr>
+        <tr hidden>
+            <td colspan="4">@Html.TextBoxFor(model => model.MailboxSmtpAddress)</td>
+        </tr>
+    </table>
+} // form
+} 
+
+@if (!String.IsNullOrEmpty(Model.Request))
+{
+<hr />
+    <div>
+        <b>Request:</b><br />
+        Get @Model.Request Http/1.1<br />
+        Authorization: Bearer @Model.AccessToken<br />
+    </div>
+<hr />
+    <div style="width:600px">
+        <b>Response:</b><br />
+        <div style="width:100%">@Model.Response</div>
+    </div>
+}
+
+<!--
+ MIT License:
+
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ ""Software""), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
