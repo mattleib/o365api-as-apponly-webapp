@@ -3,7 +3,7 @@
 -->
 @model AccessMailboxAsApp.Models.AppState 
 @{
-    ViewBag.Title = "Access Mailbox As Daemon App (app-only)";
+    ViewBag.Title = "Access Mailboxes As Daemon App (app-only)";
 }
 
 <script type="text/javascript">
@@ -14,7 +14,7 @@
     }
 </script>
 
-<h2>Access Mailbox As App - Demo</h2>
+<h2>Access Mailboxes As Daemon App (app-only) - Sample Web App</h2>
 
 @if(Model.AppIsAuthorized == false)
 { // App is not yet authorized !
@@ -42,7 +42,7 @@
 { // We are authorized and hopefully get tokens ...
 <p>
     <b>Organization: [@Model.TenantDomain]</b><br/>
-    Current logged on admin user: [@Model.LoggedOnUser]<br/><br/> 
+    Current logged on as user: [@Model.LoggedOnUser]<br/><br/> 
 </p>
 using (Html.BeginForm("", "Home", FormMethod.Post))
 {
@@ -113,7 +113,7 @@ using (Html.BeginForm("", "Home", FormMethod.Post))
     <div>
         <b>Request:</b><br />
         Get @Model.Request Http/1.1<br />
-        Authorization: Bearer @Model.AccessToken<br />
+        Authorization: Bearer <a href="http://jwt.calebb.net/#jwt=@Model.AccessToken" target="_blank">@Model.AccessToken</a><br />
     </div>
 <hr />
     <div style="width:600px">

@@ -74,23 +74,7 @@ namespace AccessMailboxAsApp.Controllers
                     return View(appState);
                 }
 
-                // Was it correlated with authorize request
-                var authstate = Session[AppSessionVariables.AuthState] as String;
-                Session[AppSessionVariables.AuthState] = null;
-                if (String.IsNullOrEmpty(authstate))
-                {
-                    appState.ErrorMessage = "Oops. Something went wrong with the authorization state (No auth state). Please retry.";
-                    appState.AppIsAuthorized = false;
 
-                    return View(appState);
-                }
-                if (!Request.Form["state"].Equals(authstate))
-                {
-                    appState.ErrorMessage = "Oops. Something went wrong with the authorization state (Invalid auth state). Please retry.";
-                    appState.AppIsAuthorized = false;
-
-                    return View(appState);
-                }
 
                 // Authorized without error: Check to see if we have an ID token
                 if (String.IsNullOrEmpty(Request.Form["id_token"]))
@@ -98,7 +82,25 @@ namespace AccessMailboxAsApp.Controllers
                     appState.AppIsAuthorized = false;
                 }
                 else
-                { 
+                {
+                    // Was it correlated with authorize request
+                    var authstate = Session[AppSessionVariables.AuthState] as String;
+                    Session[AppSessionVariables.AuthState] = null;
+                    if (String.IsNullOrEmpty(authstate))
+                    {
+                        appState.ErrorMessage = "Oops. Something went wrong with the authorization state (No auth state). Please retry.";
+                        appState.AppIsAuthorized = false;
+
+                        return View(appState);
+                    }
+                    if (!Request.Form["state"].Equals(authstate))
+                    {
+                        appState.ErrorMessage = "Oops. Something went wrong with the authorization state (Invalid auth state). Please retry.";
+                        appState.AppIsAuthorized = false;
+
+                        return View(appState);
+                    }
+
                     // Get the TenantId out of the ID Token to address tenant specific token endpoint.
                     // No validation of ID Token as the only info we need is the tenantID
                     // If for any case your app wants to use the ID Token to authenticate 
@@ -185,13 +187,16 @@ namespace AccessMailboxAsApp.Controllers
                 {
                     selectedValue = selectedSmtp = u.mail;
                 }
-                items.Add(
-                    new SelectListItem
-                    {
-                        Text = u.mail,
-                        Value = u.mail,
-                    }
-                );
+                if (IsValidSmtp(u.mail))
+                {
+                    items.Add(
+                        new SelectListItem
+                        {
+                            Text = u.mail,
+                            Value = u.mail,
+                        }
+                    );
+                }
             }
 
             SelectList selectList = new SelectList(
@@ -332,9 +337,8 @@ namespace AccessMailboxAsApp.Controllers
 
             UriBuilder signOutRequest = new UriBuilder(appConfig.SignoutUri.Replace("common", passedAppState.TenantId));
 
-            signOutRequest.Query = "redirect_uri=" + HttpUtility.UrlEncode(appConfig.RedirectUri);
-            //signOutRequest.Query = "redirect_uri=" + appConfig.AppUri;
-
+            signOutRequest.Query = "post_logout_redirect_uri=" + HttpUtility.UrlEncode(appConfig.RedirectUri);
+            
             RedirectResult result = Redirect(signOutRequest.Uri.ToString());
             result.ExecuteResult(this.ControllerContext);
         
