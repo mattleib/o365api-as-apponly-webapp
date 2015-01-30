@@ -21,6 +21,7 @@ namespace AccessMailboxAsApp.App_Classes
         public const string ExchangeResourceUri = "ExchangeResourceUri";
         public const string GraphResourceUri = "GraphResourceUri";
         public const string SignoutUri = "SignoutUri";
+        public const string DebugOffice365User = "DebugOffice365User";
     }
 
     public class AppConfig
@@ -35,6 +36,7 @@ namespace AccessMailboxAsApp.App_Classes
         public string RedirectUri { get; set; }
         public string ExchangeResourceUri { get; set; }
         public string GraphResourceUri { get; set; }
+        public string DebugOffice365User { get; set; }
 
         public AppConfig()
         {
@@ -49,11 +51,12 @@ namespace AccessMailboxAsApp.App_Classes
 #else
                 AppConfigSettings.RedirectUri
 #endif
-);
+            );
             this.ExchangeResourceUri = this.Read(AppConfigSettings.ExchangeResourceUri);
             this.GraphResourceUri = this.Read(AppConfigSettings.GraphResourceUri);
             this.ClientCertificatePfx = this.Read(AppConfigSettings.ClientCertificatePfx);
             this.ClientCertificatePfxPassword = this.Read(AppConfigSettings.ClientCertificatePfxPassword);
+            this.DebugOffice365User = this.Read(AppConfigSettings.DebugOffice365User);
         }
 
         private string Read(string appSettingName)
