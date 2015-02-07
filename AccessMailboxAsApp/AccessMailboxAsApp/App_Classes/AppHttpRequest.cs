@@ -20,6 +20,7 @@ namespace AccessMailboxAsApp.App_Classes
                 // add propper instrumentation headers
                 string clientRequestId = Guid.NewGuid().ToString();
                 client.DefaultRequestHeaders.Add("client-request-id", clientRequestId);
+                client.DefaultRequestHeaders.Add("return-client-request-id", "true");
                 client.DefaultRequestHeaders.Add("UserAgent", "MatthiasLeibmannsAppOnlyAppSampleBeta/0.1");
                 client.DefaultRequestHeaders.Add("Authorization", String.Format("Bearer {0}", accessToken));
 
