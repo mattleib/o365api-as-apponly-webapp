@@ -4,7 +4,7 @@ Sample web app that uses client credential flow to access Users, Mail, Calendar,
 
 For more information about how the protocols work in this scenario, see [Service to Service Calls Using Client Credentials] (http://msdn.microsoft.com/en-us/library/azure/dn645543.aspx)
 
-For more information about "app-only" aka 'Service or Daemon applications' in Office 365, see the companion blog on: (http://blogs.msdn.com/b/exchangedev/archive/2015/01/22/building-demon-or-service-apps-with-office-365-mail-calendar-and-contacts-apis-oauth2-client-credential-flow.aspx)
+For more information about "app-only" aka 'Service or Daemon applications' in Office 365, see the companion blog on: (http://i1.blogs.msdn.com/b/exchangedev/archive/2015/01/21/building-demon-or-service-apps-with-office-365-mail-calendar-and-contacts-apis-oauth2-client-credential-flow.aspx)
 
 ## How To Run This Sample
 
