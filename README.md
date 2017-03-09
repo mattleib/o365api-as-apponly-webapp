@@ -4,7 +4,7 @@ Sample web app that uses client credential flow to access Users, Mail, Calendar,
 
 For more information about how the protocols work in this scenario, see [Service to Service Calls Using Client Credentials] (http://msdn.microsoft.com/en-us/library/azure/dn645543.aspx)
 
-For more information about "app-only" aka 'Service or Daemon applications' in Office 365, see the companion blog on: (http://blogs.msdn.com/b/exchangedev/archive/2015/01/22/building-demon-or-service-apps-with-office-365-mail-calendar-and-contacts-apis-oauth2-client-credential-flow.aspx)
+For more information about "app-only" aka 'Service or Daemon applications' in Office 365, see the companion blog on: (https://blogs.msdn.microsoft.com/exchangedev/2015/01/21/building-daemon-or-service-apps-with-office-365-mail-calendar-and-contacts-apis-oauth2-client-credential-flow/)
 
 ## How To Run This Sample
 
@@ -25,7 +25,7 @@ From your shell or command line:
 
 ### Step 2  Register the sample with your Azure Active Directory tenant
 
-####Prereq: Create a certificate for your app as described in the companion blog: (http://blogs.msdn.com/b/exchangedev/archive/2015/01/22/building-demon-or-service-apps-with-office-365-mail-calendar-and-contacts-apis-oauth2-client-credential-flow.aspx)
+####Prereq: Create a certificate for your app as described in the companion blog: (https://blogs.msdn.microsoft.com/exchangedev/2015/01/21/building-daemon-or-service-apps-with-office-365-mail-calendar-and-contacts-apis-oauth2-client-credential-flow/)
 
 1. Sign in to the [Azure management portal](https://manage.windowsazure.com).
 2. Click on Active Directory in the left hand nav.
@@ -48,7 +48,7 @@ From your shell or command line:
   - From the "Application Permission" drop-down for "Office 365 Exchange Online" check: **"Read users' calendar"**
   - From the "Application Permission" drop-down for "Office 365 Exchange Online" check: **"Read users' contacts"**
 13. Save the configuration so you can view the key value.
-14. Configure the X.509 public certificate as explained in the companion blog: (http://blogs.msdn.com/b/exchangedev/archive/2015/01/22/building-demon-or-service-apps-with-office-365-mail-calendar-and-contacts-apis-oauth2-client-credential-flow.aspx)
+14. Configure the X.509 public certificate as explained in the companion blog: (https://blogs.msdn.microsoft.com/exchangedev/2015/01/21/building-daemon-or-service-apps-with-office-365-mail-calendar-and-contacts-apis-oauth2-client-credential-flow/)
 
 
 ### Step 3  Configure the sample
